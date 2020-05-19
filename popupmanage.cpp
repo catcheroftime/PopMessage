@@ -13,7 +13,8 @@ PopupManage::PopupManage()
 PopupManage::~PopupManage()
 {
     qDeleteAll(m_popupList);
-    m_popupList.clear();}
+    m_popupList.clear();
+}
 
 void PopupManage::addMessageShow(MessageShow *popup)
 {

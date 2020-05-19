@@ -10,6 +10,10 @@ MessageShow::MessageShow(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::SubWindow);
 
+    this->setFixedSize(240,120);
+
+    setUiStyle();
+
     timer_show = new QTimer(this);
     timer_stay = new QTimer(this);
     timer_close = new QTimer(this);
@@ -18,8 +22,6 @@ MessageShow::MessageShow(QWidget *parent) :
     desktop_height = QApplication::desktop()->height();
 
     notify_sum = 0;
-
-    ui->label_msg->setWordWrap(true);
 
     connect(timer_show, SIGNAL(timeout()),  this, SLOT(MsgMove()));
     connect(timer_stay, SIGNAL(timeout()),  this, SLOT(MsgStay()));
@@ -47,13 +49,11 @@ void MessageShow::setInfomation(QString titleInfo, QString msg, bool hidetitle)
     }
     ui->label_titleInfo->setText(titleInfo);
 
-    if ( msg.contains("exchange") ) {
-        int left = msg.indexOf( "exchange");
-        msg = msg.left(left-1);
-    }
 
     ui->label_msg->setText(msg);
-    setUiStyle();
+    ui->label_msg->setToolTip(msg);
+
+
     this->showMessage();
 }
 
@@ -71,7 +71,7 @@ void MessageShow::setInfomation(QString titleInfo, QString msg, QString filepath
         ui->label_titleInfo->setText(titleInfo);
         ui->label_msg->setText(msg);
     }
-    setUiStyle();
+    ui->label_msg->setToolTip(msg);
 }
 
 void MessageShow::openUrl(QString filepath)
@@ -82,10 +82,11 @@ void MessageShow::openUrl(QString filepath)
 void MessageShow::setUiStyle()
 {
     ui->widget_msgtitle->setStyleSheet("border:0px solid rgb(10,10,10);"
-                                            "color:#fff;"
-                                            "background-color:rgb(10,10,10);"
-                                            "font-size: 13px;"
-                                            "font-family:\"Microsoft YaHei\";");
+                                       "color:#fff;"
+                                       "background-color:rgb(10,10,10);"
+                                       "font-size: 13px;"
+                                       "font-family:\"Microsoft YaHei\";");
+
     ui->pushButton_close->setStyleSheet("QPushButton{image: url(./resource/images/close_n);}"
                                          "QPushButton:hover{image: url(./resource/images/close_h);}"
                                          "QPushButton:pressed{image: url(./resource/images/close_p);}");
