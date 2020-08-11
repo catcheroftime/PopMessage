@@ -23,6 +23,12 @@ public:
     void setInfomation(QString titleInfo, QString msg, QString filepath, bool takeurl);
 
     void updatePosition();
+
+protected:
+    virtual void enterEvent(QEvent *event) override;
+    virtual void leaveEvent(QEvent *event) override;
+
+
 signals:
     void sigClickUrl(QString);
     void sigClose(MessageShow *);
@@ -51,6 +57,8 @@ private:
 
     QPoint normal_point;
     bool m_first_show;
+
+    bool m_enterEvent;
 
     int notify_sum;
 

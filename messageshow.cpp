@@ -1,16 +1,17 @@
 ﻿#include "messageshow.h"
 #include "ui_messageshow.h"
 
+#include <QDebug>
+
 MessageShow::MessageShow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MessageShow)
   , m_takeurl(false)
   , m_first_show(true)
+  , m_enterEvent(false)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::SubWindow);
-
-    this->setFixedSize(240,120);
 
     setUiStyle();
 
@@ -49,12 +50,8 @@ void MessageShow::setInfomation(QString titleInfo, QString msg, bool hidetitle)
     }
     ui->label_titleInfo->setText(titleInfo);
 
-
-    ui->label_msg->setText(msg);
+    ui->label_msg->setText(msg);    
     ui->label_msg->setToolTip(msg);
-
-
-    this->showMessage();
 }
 
 
@@ -70,6 +67,7 @@ void MessageShow::setInfomation(QString titleInfo, QString msg, QString filepath
     {
         ui->label_titleInfo->setText(titleInfo);
         ui->label_msg->setText(msg);
+
     }
     ui->label_msg->setToolTip(msg);
 }
@@ -82,11 +80,10 @@ void MessageShow::openUrl(QString filepath)
 void MessageShow::setUiStyle()
 {
     ui->widget_msgtitle->setStyleSheet("border:0px solid rgb(10,10,10);"
-                                       "color:#fff;"
-                                       "background-color:rgb(10,10,10);"
-                                       "font-size: 13px;"
-                                       "font-family:\"Microsoft YaHei\";");
-
+                                            "color:#fff;"
+                                            "background-color:rgb(10,10,10);"
+                                            "font-size: 13px;"
+                                            "font-family:\"Microsoft YaHei\";");
     ui->pushButton_close->setStyleSheet("QPushButton{image: url(./resource/images/close_n);}"
                                          "QPushButton:hover{image: url(./resource/images/close_h);}"
                                          "QPushButton:pressed{image: url(./resource/images/close_p);}");
@@ -106,9 +103,6 @@ void MessageShow::deleteTimer(QTimer *timer)
     delete timer;
     timer = NULL;
 }
-
-
-
 
 void MessageShow::on_pushButton_close_clicked()
 {
@@ -131,8 +125,8 @@ void MessageShow::showMessage()
     QRect desk_rect = desktop->availableGeometry();
     normal_point.setX(desk_rect.width() - rect().width());
     normal_point.setY(desk_rect.height() - rect().height());
-    move(normal_point.x(), normal_point.y());
-    showNormal();
+    move(desk_rect.width(), desk_rect.height());
+    this->open();
     timer_show->start(3);
 }
 
@@ -143,7 +137,8 @@ void MessageShow::MsgMove()
     if(desktop_height <= ( normal_point.y() - notify_sum*(this->height()+3) ) )
     {
         timer_show->stop();
-        timer_stay->start(800);
+        if (!m_enterEvent)
+            timer_stay->start(1000);
     }
 }
 
@@ -181,4 +176,23 @@ void MessageShow::updatePosition()
         desktop_height = desktop_height - this->height()-3;
         move(normal_point.x(), desktop_height);
     }
+}
+
+void MessageShow::enterEvent(QEvent *event)
+{
+    Q_UNUSED(event);
+
+    m_enterEvent = true;
+    timer_stay->stop();
+    transparent = 1.0;
+    setWindowOpacity(transparent);
+    timer_close->stop();
+}
+
+void MessageShow::leaveEvent(QEvent *event)
+{
+    Q_UNUSED(event);
+    m_enterEvent = false;
+    timer_stay->stop();
+    timer_close->start(150);
 }
