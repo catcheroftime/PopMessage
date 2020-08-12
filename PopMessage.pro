@@ -23,14 +23,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-        messageshow.cpp \
-        popupmanage.cpp
+INCLUDEPATH += \
+     $$PWD/mainwindow \
+     $$PWD/popupmanage \
 
-HEADERS  += mainwindow.h \
-            messageshow.h \
-            popupmanage.h
+SOURCES += main.cpp
 
-FORMS    += mainwindow.ui \
-            messageshow.ui
+include(./mainwindow/mainwindow.pri)
+include(./popupmanage/popupmanage.pri)

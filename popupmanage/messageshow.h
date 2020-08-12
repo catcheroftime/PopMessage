@@ -20,7 +20,7 @@ public:
     ~MessageShow();
 
     void setInfomation(QString titleInfo, QString msg, bool hidetitle = false);
-    void setInfomation(QString titleInfo, QString msg, QString filepath, bool takeurl);
+    void setInfomation(QString titleInfo, QString msg, QString extraInfo);
 
     void updatePosition();
 
@@ -35,33 +35,31 @@ signals:
 
 private slots:
     void on_pushButton_close_clicked();
-    void MsgMove();
-    void MsgStay();
-    void MsgClose();
-    void openUrl(QString filepath);
+
+    void slotMsgMove();
+    void slotMsgStay();
+    void slotMsgClose();
+
 private:
     void showMessage();
     void setUiStyle();
     inline void deleteTimer(QTimer * timer);
+
 private:
     Ui::MessageShow *ui;
 
-    QTimer* timer_show;
-    QTimer* timer_stay;
-    QTimer* timer_close;
+    QPoint end_showPoint;
+    int m_currentHeight;
 
-    int time_count;
-    double transparent;
-    int desktop_height;
-    bool m_takeurl;
+    QTimer* m_showTimer;
+    QTimer* m_stayTimer;
+    QTimer* m_closeTimer;
 
-    QPoint normal_point;
-    bool m_first_show;
+    int m_stayExeTime;
+    double m_transparent;
 
+    bool m_firstShow;
     bool m_enterEvent;
-
-    int notify_sum;
-
 };
 
 #endif // MESSAGESHOW_H

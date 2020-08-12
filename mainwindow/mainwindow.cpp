@@ -19,5 +19,5 @@ void MainWindow::on_ptn_show_clicked()
 {
     QString show_text = ui->textEdit->toPlainText();
 //    QString show_text = "test\ntest";
-    PopupManage::getInstance()->setInfomation("错误", show_text, true);
+    PopupManage::getInstance()->setInfomation("错误", show_text);
 }

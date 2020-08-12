@@ -53,10 +53,10 @@ void PopupManage::setInfomation(QString titleInfo, QString msg, bool hidetitle)
 
 }
 
-void PopupManage::setInfomation(QString titleInfo, QString msg, QString filepath, bool takeurl)
+void PopupManage::setInfomation(QString titleInfo, QString msg, QString extraInfo)
 {
     MessageShow * popup = new MessageShow();
-    popup->setInfomation(titleInfo, msg, filepath, takeurl);
+    popup->setInfomation(titleInfo, msg, extraInfo);
     connect(popup, &MessageShow::sigClose, this, &PopupManage::deleteMessageShow);
     connect(popup, &MessageShow::sigClickUrl, this, &PopupManage::sigClickUrl);
     addMessageShow(popup);

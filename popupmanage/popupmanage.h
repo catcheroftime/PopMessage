@@ -13,7 +13,7 @@ public:
     static PopupManage * getInstance();
 
     void setInfomation(QString titleInfo, QString msg, bool hidetitle = false);
-    void setInfomation(QString titleInfo, QString msg, QString filepath, bool takeurl);
+    void setInfomation(QString titleInfo, QString msg, QString extraInfo);
 
 private slots:
     void addMessageShow(MessageShow *popup);
