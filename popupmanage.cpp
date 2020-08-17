@@ -18,7 +18,11 @@ PopupManage::~PopupManage()
 
 void PopupManage::addMessageShow(MessageShow *popup)
 {
+    connect(popup, &MessageShow::sigClose, this, &PopupManage::deleteMessageShow);
+    connect(popup, &MessageShow::sigClickUrl, this, &PopupManage::sigClickUrl);
     m_popupList.append(popup);
+
+    this->notifyMessageShow();
 }
 
 void PopupManage::deleteMessageShow(MessageShow *popup)
@@ -42,23 +46,16 @@ PopupManage *PopupManage::getInstance()
     return m_popupManager;
 }
 
-void PopupManage::setInfomation(QString titleInfo, QString msg, bool hidetitle)
+void PopupManage::setInfomation(QString titleInfo, QString msg)
 {
     MessageShow * popup = new MessageShow();
-    popup->setInfomation(titleInfo, msg, hidetitle);
-    connect(popup, &MessageShow::sigClose, this, &PopupManage::deleteMessageShow);
-    connect(popup, &MessageShow::sigClickUrl, this, &PopupManage::sigClickUrl);
+    popup->setInfomation(titleInfo, msg);
     addMessageShow(popup);
-    this->notifyMessageShow();
-
 }
 
 void PopupManage::setInfomation(QString titleInfo, QString msg, QString extraInfo)
 {
     MessageShow * popup = new MessageShow();
     popup->setInfomation(titleInfo, msg, extraInfo);
-    connect(popup, &MessageShow::sigClose, this, &PopupManage::deleteMessageShow);
-    connect(popup, &MessageShow::sigClickUrl, this, &PopupManage::sigClickUrl);
     addMessageShow(popup);
-    this->notifyMessageShow();
 }

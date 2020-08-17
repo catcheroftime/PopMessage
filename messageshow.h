@@ -19,7 +19,7 @@ public:
     MessageShow(QWidget *parent = 0);
     ~MessageShow();
 
-    void setInfomation(QString titleInfo, QString msg, bool hidetitle = false);
+    void setInfomation(QString titleInfo, QString msg);
     void setInfomation(QString titleInfo, QString msg, QString extraInfo);
 
     void updatePosition();

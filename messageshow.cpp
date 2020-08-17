@@ -39,15 +39,8 @@ MessageShow::~MessageShow()
     delete ui;
 }
 
-void MessageShow::setInfomation(QString titleInfo, QString msg, bool hidetitle)
+void MessageShow::setInfomation(QString titleInfo, QString msg)
 {
-    if(hidetitle)
-    {
-        ui->widget_msgtitle->hide();
-    }else
-    {
-        ui->widget_msgtitle->show();
-    }
     ui->label_titleInfo->setText(titleInfo);
 
     ui->label_msg->setText(msg);    
@@ -57,8 +50,6 @@ void MessageShow::setInfomation(QString titleInfo, QString msg, bool hidetitle)
 
 void MessageShow::setInfomation(QString titleInfo, QString msg, QString extraInfo)
 {
-    ui->widget_msgtitle->show();
-
     ui->label_titleInfo->setText(titleInfo);
     ui->label_msg->setText(QString("<a style='color: gray;'href=\"")+extraInfo+QString("\">")+msg);
     connect(ui->label_msg,SIGNAL(linkActivated(QString)),this,SIGNAL(sigClickUrl(QString)));

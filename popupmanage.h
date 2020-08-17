@@ -12,7 +12,7 @@ class PopupManage : public QObject
 public:
     static PopupManage * getInstance();
 
-    void setInfomation(QString titleInfo, QString msg, bool hidetitle = false);
+    void setInfomation(QString titleInfo, QString msg);
     void setInfomation(QString titleInfo, QString msg, QString extraInfo);
 
 private slots:
